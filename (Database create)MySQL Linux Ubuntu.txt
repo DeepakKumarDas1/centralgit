@@ -1,0 +1,353 @@
+
+                                                   (Database create)kmaster 172.16.16.100)
+
+                                                   
+# cat /etc/os-release
+NAME="Ubuntu"
+VERSION="20.04.2 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.2 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+
+# apt install mysql-server mysql-client -y
+~# mysql --version
+mysql  Ver 8.0.30-0ubuntu0.20.04.2 for Linux on x86_64 ((Ubuntu))
+# mysql
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+
+mysql> exit
+Bye
+root@kmaster:~# cat /etc/mysql/debian.cnf
+# Automatically generated for Debian scripts. DO NOT TOUCH!
+[client]
+host     = localhost
+user     = debian-sys-maint
+password = OOtV9mbbU7S8rmyn
+socket   = /var/run/mysqld/mysqld.sock
+[mysql_upgrade]
+host     = localhost
+user     = debian-sys-maint
+password = OOtV9mbbU7S8rmyn
+socket   = /var/run/mysqld/mysqld.sock
+
+root@kmaster:~# mysql -u debian-sys-maint -p
+Enter password:
+
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY '                                   
+RedHat@#123';
+Query OK, 0 rows affected (0.00 sec)
+mysql> exit
+Bye
+root@kmaster:~# mysql -u root -p
+root@kmaster:~# mysql -u root -p
+Enter password:
+mysql> CREATE USER 'demo'@'%' IDENTIFIED BY 'RedHat@                                    
+#123';
+Query OK, 0 rows affected (0.01 sec)
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.01 sec)
+
+mysql>
+mysql> create database mydb;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mydb               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT host FROM mysql.user WHERE user = "dem                                    
+o";
++------+
+| host |
++------+
+| %    |
++------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> SELECT host FROM mysql.user WHERE user = "demo";
++------+
+| host |
++------+
+| %    |
++------+
+1 row in set (0.00 sec)
+
+mysql> USE mysql
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql>
+mysql> SELECT host FROM mysql.user WHERE user = "demo";
++------+
+| host |
++------+
+| %    |
++------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT host FROM mysql.user WHERE user = "demo";
++------+
+| host |
++------+
+| %    |
++------+
+1 row in set (0.00 sec)
+
+mysql> GRANT ALL PRIVILEGES ON mydb.* TO 'demo'@'%' WITH GRANT OPTION;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> exit
+Bye
+root@kmaster:~# cd /etc/mysql/
+root@kmaster:/etc/mysql#
+root@kmaster:/etc/mysql# ll
+total 32
+drwxr-xr-x   4 root root 4096 Sep  8 11:26 ./
+drwxr-xr-x 102 root root 4096 Sep  8 11:27 ../
+drwxr-xr-x   2 root root 4096 Sep  8 11:26 conf.d/
+-rw-------   1 root root  317 Sep  8 11:26 debian.cnf
+-rwxr-xr-x   1 root root  120 Jul 26 16:14 debian-start*
+lrwxrwxrwx   1 root root   24 Sep  8 11:26 my.cnf -> /etc/alternatives/my.cnf
+-rw-r--r--   1 root root  839 Aug  3  2016 my.cnf.fallback
+-rw-r--r--   1 root root  682 Mar 10 20:45 mysql.cnf
+drwxr-xr-x   2 root root 4096 Sep  8 11:26 mysql.conf.d/
+root@kmaster:/etc/mysql#
+root@kmaster:/etc/mysql# vim my.cnf
+
+[No write since last change]
+default via 10.0.2.2 dev eth0 proto dhcp src 10.0.2.15 metric 100
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+10.0.2.2 dev eth0 proto dhcp scope link src 10.0.2.15 metric 100
+172.16.16.0/24 dev eth1 proto kernel scope link src 172.16.16.100
+blackhole 192.168.189.0/26 proto bird
+
+root@kmaster:/etc/mysql# service mysql  restart
+root@kmaster:/etc/mysql#
+root@kmaster:/etc/mysql# mysql -u demo -p -h 172.16.16.100
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.30-0ubuntu0.20.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> exit
+Bye
+root@kmaster:/etc/mysql# vim my.cnf
+root@kmaster:/etc/mysql#
+root@kmaster:/etc/mysql#
+root@kmaster:/etc/mysql# mysql -u demo -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.30-0ubuntu0.20.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> exit
+Bye
+root@kmaster:/etc/mysql# mysql -u root  -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.30-0ubuntu0.20.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+mysql> SELECT User, Host, plugin FROM mysql.user;
++------------------+-----------+-----------------------+
+| User             | Host      | plugin                |
++------------------+-----------+-----------------------+
+| demo             | %         | caching_sha2_password |
+| debian-sys-maint | localhost | caching_sha2_password |
+| mysql.infoschema | localhost | caching_sha2_password |
+| mysql.session    | localhost | caching_sha2_password |
+| mysql.sys        | localhost | caching_sha2_password |
+| root             | localhost | auth_socket           |
++------------------+-----------+-----------------------+
+6 rows in set (0.00 sec)
+mysql> CREATE USER 'tutu'@'localhost' IDENTIFIED BY 'RedHat@#123';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT User, Host, plugin FROM mysql.user;
++------------------+-----------+-----------------------+
+| User             | Host      | plugin                |
++------------------+-----------+-----------------------+
+| demo             | %         | caching_sha2_password |
+| debian-sys-maint | localhost | caching_sha2_password |
+| mysql.infoschema | localhost | caching_sha2_password |
+| mysql.session    | localhost | caching_sha2_password |
+| mysql.sys        | localhost | caching_sha2_password |
+| root             | localhost | auth_socket           |
+| tutu             | localhost | caching_sha2_password |
++------------------+-----------+-----------------------+
+7 rows in set (0.00 sec)
+mysql> CREATE USER 'chandan'@'%' IDENTIFIED BY 'RedHat@#123';
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'chandan'@'%' WITH GRANT OPTION;
+Query OK, 0 rows affected (0.01 sec)
+mysql> SELECT User, Host, plugin FROM mysql.user;
++------------------+-----------+-----------------------+
+| User             | Host      | plugin                |
++------------------+-----------+-----------------------+
+| chandan          | %         | caching_sha2_password |
+| demo             | %         | caching_sha2_password |
+| debian-sys-maint | localhost | caching_sha2_password |
+| mysql.infoschema | localhost | caching_sha2_password |
+| mysql.session    | localhost | caching_sha2_password |
+| mysql.sys        | localhost | caching_sha2_password |
+| root             | localhost | auth_socket           |
+| tutu             | localhost | caching_sha2_password |
++------------------+-----------+-----------------------+
+8 rows in set (0.00 sec)
+mysql> exit
+Bye
+root@kmaster:/etc/mysql# telnet 172.16.16.101 3306
+Trying 172.16.16.101...
+Connected to 172.16.16.101.
+Escape character is '^]'.
+
+
+
+---------------------------------------------0----------------------0----------------
+                                ***(kworker1)172.16.216.101)***
+
+
+root@kworker1:~# apt install mysql-server -y
+# mysql -u chandan -p -h 172.16.16.100
+Enter password:                  (RedHat@#123)
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mydb               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+mysql> exit
+Bye
+root@kworker1:~#
+root@kworker1:~# mysql -u demo -p -h 172.16.16.100
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.30-0ubuntu0.20.04.2 (Ubuntu)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mydb               |
+| performance_schema |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql> exit
+Bye
+# mysql -u tutu -p -h 172.16.16.100
+Enter password:
+~# telnet 172.16.16.100 3306
+Trying 172.16.16.100...
+Connected to 172.16.16.100.
+# apt install mysql-client -y
+Reading package lists... Done
+# service mysql restart
+# cd /etc/mysql/
+# vim my.cnf
+# service mysql restart
+# telnet 172.16.16.100 3306
+Trying 172.16.16.100...
+Connected to 172.16.16.100.
+Escape character is '^]'.
+[
+8.0.30-0ubuntu0.20.04.2OQFok8▒rXt:vFpiD(Pcaching_sha2_passwordxterm-256color
+
+
+
+
+----------------------------------0---------------------------------0-----------------------
+                             (Another Laptop exisss karipariba)
+
+
+
+root@kmaster:/etc/mysql# ll
+total 32
+drwxr-xr-x   4 root root 4096 Sep  8 12:19 ./
+drwxr-xr-x 102 root root 4096 Sep  8 11:27 ../
+drwxr-xr-x   2 root root 4096 Sep  8 11:26 conf.d/
+-rw-------   1 root root  317 Sep  8 11:26 debian.cnf
+-rwxr-xr-x   1 root root  120 Jul 26 16:14 debian-start*
+lrwxrwxrwx   1 root root   24 Sep  8 11:26 my.cnf -> /etc/alternatives/my.cnf
+-rw-r--r--   1 root root  839 Aug  3  2016 my.cnf.fallback
+-rw-r--r--   1 root root  719 Sep  8 12:10 mysql.cnf
+drwxr-xr-x   2 root root 4096 Sep  8 11:26 mysql.conf.d/
+root@kmaster:/etc/mysql# cat mysql.cnf
+root@kmaster:/etc/mysql# mysql -u marandi -p -h 13.232.51.178
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.30-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mydb               |
+| performance_schema |
++--------------------+
+3 rows in set (0.21 sec)
+---------------------------------0----------------	
